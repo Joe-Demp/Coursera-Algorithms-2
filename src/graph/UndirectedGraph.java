@@ -10,7 +10,8 @@ public class UndirectedGraph implements Graph {
 	private int V = 0;
 	private int E = 0;
 	/**
-	 * Creates an empty Graph with V nodes
+	 * Creates an empty Graph with V nodes<br>
+	 * Note: vertices are indexed from 0, so if you want 12 nodes from 1 - 12, V needs to be assigned 13
 	 * 
 	 * @param V the number of nodes you want to represent by this graph
 	 */
@@ -93,4 +94,31 @@ public class UndirectedGraph implements Graph {
 		return E;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("V = " + V() + " E = " + E() + "\n");
+		sb.append("Edges:\n");
+		
+		for (int i = 0; i < V; ++i) {
+			for (Integer num : graph[i]) {
+				sb.append(i + " - " + num + "\n");
+			}
+		}
+		return sb.toString();
+	}
+	/**
+	 * 
+	 * @param g
+	 * @param v
+	 * @return
+	 */
+	public static int degree(UndirectedGraph g, int v) {
+		int degree = 0;
+		for (Integer num : g.adj(v)) {
+			degree++;
+		}
+		return degree;
+	}
+	
 }
