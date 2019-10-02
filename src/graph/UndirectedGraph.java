@@ -1,7 +1,9 @@
 package graph;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Scanner;
 
 public class UndirectedGraph implements Graph {
 	private HashSet<Integer>[] graph;
@@ -14,27 +16,56 @@ public class UndirectedGraph implements Graph {
 	 */
 	@SuppressWarnings("unchecked")
 	public UndirectedGraph(int V) {
+		if (V <= 0) {
+			throw new IllegalArgumentException("V cannot be less than or equal to 0");
+		}
+		
 		graph = (HashSet<Integer>[]) new HashSet[V];
 		for (int i = 0; i < V; ++i) {
 			graph[i] = new HashSet<Integer>(V - 1);
 		}
+		
 		this.V = V;
 		this.E = 0;
 	}
 	/**
-	 * Creates a graph specified by the contents of the file
-	 * [describe the file structure]
+	 * Factory method to create a graph specified by the contents of a file
+	 * The file contains:<br>
+	 * Integer V, the number of vertices in the Graph<br>
+	 * Integer E, the number of edges between the vertices<br>
+	 * And E pairs of integers (v, w) specifying an edge between vertices v and w<br> 
 	 * 
 	 * @param f the file object from which you want to construct the Graph
+	 * @return the graph specified by the file if the file is valid, otherwise null
 	 */
-	public UndirectedGraph(File f) {
+	public static UndirectedGraph makeGraph(File f) {
+		UndirectedGraph newGraph = null;
+		try (Scanner scan = new Scanner(f)) {
+			int V = scan.nextInt();	// file must contain at least V and E
+			int E = scan.nextInt();
+			
+			newGraph = new UndirectedGraph(V);
+			for (int i = 0; i < E; ++i) {
+				int v = scan.nextInt();
+				int w = scan.nextInt();
+				
+				newGraph.addEdge(v, w);
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("The file could not be found");
+			System.out.println(e.getMessage());
+		}
 		
+		return newGraph;
 	}
-	
+	/**
+	 * 
+	 */
 	@Override
 	public void addEdge(int v, int w) {
 		// TODO Auto-generated method stub
 		// TODO check for anomalies e.g. v = w or v - w already exists
+		// TODO check that both v and w are in range
 	}
 
 	@Override
