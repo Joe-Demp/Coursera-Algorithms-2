@@ -59,13 +59,23 @@ public class UndirectedGraph implements Graph {
 		return newGraph;
 	}
 	/**
-	 * 
+	 * Adds an edge to the graph, between vertices v and w<br>
+	 * Does nothing if:<br>
+	 * 1. either v or w are not vertices in the graph<br>
+	 * 2. v and w refer to the same node<br>
+	 * 3. v and w are already connected
+	 *  
 	 */
 	@Override
 	public void addEdge(int v, int w) {
-		// TODO Auto-generated method stub
-		// TODO check for anomalies e.g. v = w or v - w already exists
-		// TODO check that both v and w are in range
+		if (v >= 0 && v < V && w >= 0 && w < V) { // check that both v and w are in range
+			// check for anomalies e.g. v = w or v - w already exists
+			if (v != w && !graph[v].contains(w)) {
+				graph[v].add(w);
+				graph[w].add(v);
+				E++;
+			}
+		}
 	}
 
 	@Override
